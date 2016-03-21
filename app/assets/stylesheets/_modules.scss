@@ -1,0 +1,359 @@
+//--- Variables
+
+$slate: #31373d; //primary text color
+$blue: #479ccf; //primary action color
+$green: #96a7b6; //accent color for success, checkmarks, etc.
+$secondarytext: #96a7b6; //secondary text color
+$placeholder: #cad3da; //empty form label color
+$sky-dark: #d3dbe2; //border and stroke color
+$sky-light: #f2f4f5; //background color for scroll views, modals, popovers
+$white: #fff;
+$red: #db7878; //warnings and red tints
+$orange: #edb856;
+
+$helvetica: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+//--- Body styles
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  -webkit-font-smoothing: antialiased;
+  box-sizing: inherit;
+}
+
+body {
+  font-family: $helvetica;
+  font-size: 16px;
+  color: $slate;
+  line-height: 1.4;
+  background: $sky-light;
+  margin: 0;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+//--- Typography
+
+h1 {
+  font-size: 22px;
+  font-weight: 400;
+}
+
+h2 {
+  font-size: 19px;
+  font-weight: 500;
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+a {
+  text-decoration: none;
+  color: $blue;
+}
+
+.label-primary {
+  color: $slate;
+  font-size: 19px;
+  font-weight: 500;
+}
+
+.label-secondary {
+  color: $secondarytext;
+}
+
+.active .label-primary,
+.active .label-secondary {
+  color: $white;
+}
+
+.listheader {
+  font-size: 14px;
+  font-weight: 500;
+  color: $secondarytext;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  display: block;
+}
+
+//--- Form styles
+
+// Inputs
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="time"],
+input[type="date"],
+input[type="email"],
+input[type="tel"],
+textarea,
+select {
+  -webkit-appearance: none;
+  font-size: 16px;
+  font-family: $helvetica;
+  background: $white;
+  padding: 0 14px;
+  box-shadow: none;
+  height: 44px;
+  border-radius: 7px;
+  border: 1px solid $sky-dark;
+  margin: 0;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.input--fullwidth {
+    width: 100%;
+  }
+}
+
+textarea {
+  height: auto;
+}
+
+::-webkit-input-placeholder {
+  color: $placeholder;
+}
+
+// Buttons
+
+.btn {
+  -webkit-appearance: none;
+  display: inline-block;
+  text-decoration: none;
+  background: $white;
+  border: 1px solid $sky-dark;
+  color: $blue;
+  cursor: pointer;
+  border-radius: 7px;
+  position: relative;
+  font-family: $helvetica;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 0 20px;
+  line-height: 40px;
+  height: 44px;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active,
+  &:focus {
+    background: darken($white, 5%);
+  }
+}
+
+.btn-primary {
+  background: $blue;
+  border-color: $blue;
+  color: $white;
+
+  &:active,
+  &:focus {
+    background: darken($blue, 5%);
+  }
+}
+
+.btn-large {
+  font-size: 19px;
+  padding: 0 50px;
+  height: 60px;
+  line-height: 58px;
+}
+
+.btn-fullwidth {
+  width: 100%;
+}
+
+.btn-delete {
+  background: $red;
+  border-color: $red;
+  color: $white;
+
+  &:active,
+  &:focus {
+    background: darken($red, 5%);
+  }
+}
+
+//--- List view
+
+.listview {
+  margin: 12px 0;
+  list-style: none;
+  padding: 0;
+  border: 1px solid $sky-dark;
+  border-radius: 7px;
+}
+
+.listview > .listview-item {
+  background: $white;
+  display: block;
+  border-bottom: 1px solid $sky-dark;
+  padding: 12px 20px;
+
+  &:first-child {
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+  }
+
+  &:last-child {
+    border-bottom: none;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+  }
+}
+
+.listview-sectionheader {
+  color: $secondarytext;
+  background: $sky-light;
+  padding: 0 20px;
+  height: 24px;
+  line-height: 24px;
+  font-size: 14px;
+  border-bottom: 1px solid $sky-dark;
+}
+
+// List views where every item is a link
+
+.listview--links > .listview-item {
+  padding: 0;
+}
+
+.listview--links > .listview-item > a {
+  display: block;
+  text-decoration: none;
+  padding: 12px 20px;
+}
+
+.listview--links > .listview-item > a:active {
+  background: darken($white, 5%);
+}
+
+.listview--links > .listview-item > a.active {
+  background: $blue;
+  color: $white;
+}
+
+// List view that goes edge to edge in their container
+
+.listview--edgetoedge {
+  border: none;
+  border-radius: 0;
+  margin: 0;
+}
+
+.listview--edgetoedge > .listview-item {
+  &:first-child {
+    border-radius: 0;
+  }
+
+  &:last-child {
+    border-bottom: 1px solid $sky-dark;
+    border-radius: 0;
+  }
+}
+
+// List view that shows primary and secondary labels horizontally
+
+.listview--horizontal > .listview-item {
+  overflow: hidden;
+}
+
+.listview--horizontal > .listview-item > .label-primary {
+  float: left;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.listview--horizontal > .listview-item > .label-secondary {
+  float: right;
+  font-size: 16px;
+}
+
+//--- Layouts
+
+.layout-splitview {
+  overflow: hidden;
+  height:704px
+}
+
+.layout-splitview > .layout-sidebar {
+  float: left;
+  width: 39.0625%;
+  border-right: 1px solid $sky-dark;
+  position: relative;
+  overflow-y: scroll;
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+.layout-splitview > .layout-master {
+  float: left;
+  width: 60.83984375%;
+  position: relative;
+  overflow-y: scroll;
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+.layout-header {
+  background: $white;
+  border-bottom: 1px solid $sky-dark;
+  height: 44px;
+  line-height: 44px;
+}
+
+.layout-sidebar > .layout-header {
+  position: fixed;
+  z-index: 10;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+
+.layout-footer {
+  padding: 20px;
+}
+
+// .layout-view {
+//  padding-top: 45px;
+// }
+
+.layout-view--padding {
+  padding: 0 20px;
+}
+
+.layout-header-title {
+  font-size: 22px;
+  font-weight: 400;
+  text-align: center;
+  color: $slate;
+  margin: 0;
+}
+
+.buttonbar {
+  vertical-align: middle;
+}
+
+.buttonbar > .btn {
+  width: 48.1989708%;
+  margin-right: 20px;
+}
+
+.buttonbar > .btn:last-child {
+  margin-right: 0;
+}

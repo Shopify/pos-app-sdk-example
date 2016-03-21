@@ -1,0 +1,40 @@
+#user-actions p {
+  display: none;
+  display: -webkit-flex;
+  display: flex;
+}
+
+#user-actions .btn {
+  -webkit-flex: 1;
+  flex: 1;
+  margin-right: 5px;
+}
+
+#user-actions .btn:last-of-type {
+  margin-right: 0;
+}
+
+.footer {
+  position: absolute;
+  display: -webkit-flex;
+  display: flex;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  margin-bottom: 0;
+}
+
+.footer .btn {
+  -webkit-flex: 1;
+  flex: 1;
+  margin-right: 5px;
+}
+
+.footer .btn:last-of-type {
+  margin-right: 0;
+}
+
+input.text-entry {
+  -webkit-flex: 1;
+  margin-right: 5px; 
+}

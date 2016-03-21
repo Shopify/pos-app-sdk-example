@@ -1,0 +1,12 @@
+/tmp
+*.gem
+.bundle
+Gemfile.lock
+pkg/*
+.DS_Store
+.yardoc
+doc/
+*.log
+*.sqlite3
+test/tmp/*
+.idea
