@@ -1,0 +1,29 @@
+<script src="/assets/cart.js?<%= Time.now.strftime('%Y%m%d%H') %>"></script>
+
+<script>
+  ShopifyPOS.ready(function() { })
+</script>
+
+<div class="layout-view--padding">
+  <div id="user-actions">
+    <h3>Discounts</h3>
+    <p>
+      <input type="number" class="text-entry" placeholder="Amount" id="discount-amount" />
+      <input type="text" class="text-entry" placeholder="Description" id="discount-description" />
+    </p>
+    <p>
+      <a href="javascript:void(0)" class="btn" onclick="addDiscountToLineItem()">+ lineitem discount</a>
+      <a href="javascript:void(0)" class="btn" onclick="addDiscountToCart()">+ cart discount</a>
+    </p>
+    <p>
+      <a href="javascript:void(0)" class="btn" onclick="removeDiscountFromLineItem()">- lineitem discount</a>
+      <a href="javascript:void(0)" class="btn" onclick="removeDiscountFromCart()">- cart discount</a>
+    </p>
+  </div>
+
+  <p class="footer layout-footer">
+    <a href="javascript:void(0)" class="btn btn-primary btn-large" onclick="ShopifyPOS.Modal.close()">Close window</a>
+    <a href="javascript:void(0)" class="btn btn-delete btn-large" onclick="clearCart()">Empty cart</a>
+  </p>
+
+</div>

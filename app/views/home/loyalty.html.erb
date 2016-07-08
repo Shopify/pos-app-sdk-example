@@ -1,0 +1,13 @@
+<script src="/assets/cart.js?<%= Time.now.strftime('%Y%m%d%H') %>"></script>
+
+<div class="layout-view--padding" style="text-align: center">
+  <div id="user-actions" style="padding: 20px; background: #fff; border: 1px solid #ccc; margin-top: 60px;">
+    <h1>Jane Smith</h1>
+    <h2><strong>Balance:</strong> 3400 Points Remaining</h2>
+    <h3 style="color: #ff0000; font-style: italic">500 points used on this order</h3>
+  </div>
+
+  <p class="footer layout-footer">
+    <a href="javascript:void(0)" class="btn btn-primary btn-large" onclick="ShopifyPOS.Modal.close()">Close window</a>
+  </p>
+</div>

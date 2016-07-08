@@ -1,0 +1,139 @@
+<script>
+  var products = <%= json_escape((@products.each_with_object({}) {|product, o| o[product.id] = product.variants.map(&:id) }.to_json).html_safe) %>
+  var productIds = Object.keys(products);
+  var selectedAction = null
+</script>
+
+<script src="/assets/cart.js?<%= Time.now.strftime('%Y%m%d%H') %>"></script>
+
+<script>
+  ShopifyPOS.ready(function() {
+    $('#action').on('change', render)
+    $('#submit').on('click', handleSubmit)
+  })
+
+  function getPropName (prop) {
+    return prop.name
+  }
+
+  function lineItemProps(callback) {
+    ShopifyPOS.fetchCart({
+      success: function (cart) {
+        if (cart.line_items.length > 0) {
+          callback(cart.line_items[0].properties.map(getPropName))
+        }
+      },
+      error: function (errors) {
+        ShopifyPOS.flashError("Oops! Something went wrong.")
+        console.error(errors)
+      }
+    })
+  }
+
+  function cartProps(callback) {
+    ShopifyPOS.fetchCart({
+      success: function (cart) {
+        callback(cart.properties.map(getPropName))
+      },
+      error: function (errors) {
+        ShopifyPOS.flashError("Oops! Something went wrong.")
+        console.error(errors)
+      }
+    })
+  }
+
+  function toOption(prop) {
+    return $('<option>').text(prop)
+  }
+
+  function render() {
+    var action = $('#action').val()
+    var operation = action.substr(0, 3) // 'add' or 'rem'
+    var object = action.substr(4, 4) // 'line' or 'cart'
+
+    if (operation === 'add') {
+      $('#property-input').show()
+      $('#property-list').hide()
+    } else {
+      $('#property-input').hide()
+      var callback = (function(props) {
+        if (props.length > 0) {
+          $('#property-list')
+            .show()
+            .children('select').empty()
+            .append(props.map(toOption))
+        }
+      });
+      (object === 'line') ? lineItemProps(callback) : cartProps(callback)
+    }
+
+    updateSelectedAction(operation, object)
+  }
+
+  function updateSelectedAction(operation, object) {
+    selectedAction = operation + "-" + object + "-prop"
+  }
+
+  function handleSubmit(e) {
+    switch (selectedAction) {
+      case 'add-cart-prop':
+        addPropertyToCart()
+        break
+      case 'add-line-prop':
+        addPropertyToLineItem()
+        break
+      case 'rem-cart-prop':
+        removePropertyFromCart()
+        break
+      case 'rem-line-prop':
+        removePropertyFromLineItem()
+        break
+    }
+    render()
+    e.preventDefault()
+  }
+</script>
+
+<div class="layout-view--padding">
+
+  <div id="user-actions">
+    <h3>Line Items</h3>
+    <p>
+      <a href="javascript:void(0)" class="btn" onclick="addRandomItem()">+ item</a>
+      <a href="javascript:void(0)" class="btn" onclick="removeRandomItem()">- item</a>
+      <a href="javascript:void(0)" class="btn" onclick="updateRandomItem()">+ quantity</a>
+    </p>
+
+    <h3>Properties</h3>
+
+    <p>
+      <select name="action" id="action" class="input--fullwidth">
+        <option disabled selected>Select an action...</option>
+        <optgroup label="Cart">
+          <option value="add-cart-prop">Add cart property</option>
+          <option value="rem-cart-prop">Remove cart property</option>
+        </optgroup>
+        <optgroup label="Line Items">
+          <option value="add-line-prop">Add line item property</option>
+          <option value="rem-line-prop">Remove line item property</option>
+        </optgroup>
+      </select>
+    </p>
+
+    <p id="property-input" style="display:none">
+      <input type="text" class="text-entry" placeholder="Name" id="property-name" />
+      <input type="text" class="text-entry" placeholder="Value" id="property-value" />
+    </p>
+
+    <div id="property-list" style="display:none">
+      <p>Property to remove:</p>
+      <select id="prop-to-remove"></select>
+    </div>
+  </div>
+
+  <p class="footer layout-footer">
+    <a href="javascript:void(0)" id="submit" class="btn btn-primary btn-large">Apply</a>
+    <a href="javascript:void(0)" class="btn btn-delete btn-large" onclick="clearCart()">Empty cart</a>
+  </p>
+
+</div>

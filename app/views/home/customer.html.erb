@@ -1,0 +1,20 @@
+<script type="text/javascript">
+  <script src="/assets/cart.js?<%= Time.now.strftime('%Y%m%d%H') %>"></script>
+
+  <div class="layout-view--padding">
+    <div id="user-actions">
+      <p>
+        <a href="javascript:void(0)" class="btn" onclick="addCustomerToCart()">Add Customer</a>
+        <a href="javascript:void(0)" class="btn" onclick="removeCustomerFromCart()">Remove Customer</a>
+      </p>
+      <p>
+        <input type="text" class="text-entry" placeholder="Phone number" id="customer-phone">
+        <input type="submit" class="btn" value="Add to customer" onclick="addPhoneNumberToCartCustomer()">
+      </p>
+    </div>
+
+    <p class="footer layout-footer">
+      <a href="javascript:void(0)" class="btn btn-primary btn-large" onclick="ShopifyPOS.Modal.close()">Close window</a>
+    </p>
+  </div>
+</script>
