@@ -7,17 +7,38 @@
 <script src="/assets/cart.js?<%= Time.now.strftime('%Y%m%d%H') %>"></script>
 
 <script>
-  function lineItemProps() {
-    if (ShopifyPOS.Cart.current.line_items[0]) {
-      return ShopifyPOS.Cart.current.line_items[0].properties.map(function(prop) {
-        return prop.name
-      })
-    }
+  ShopifyPOS.ready(function() {
+    $('#action').on('change', render)
+    $('#submit').on('click', handleSubmit)
+  })
+
+  function getPropName (prop) {
+    return prop.name
   }
 
-  function cartProps() {
-    return ShopifyPOS.Cart.current.properties.map(function(prop) {
-      return prop.name
+  function lineItemProps(callback) {
+    ShopifyPOS.fetchCart({
+      success: function (cart) {
+        if (cart.line_items.length > 0) {
+          callback(cart.line_items[0].properties.map(getPropName))
+        }
+      },
+      error: function (errors) {
+        ShopifyPOS.flashError("Oops! Something went wrong.")
+        console.error(errors)
+      }
+    })
+  }
+
+  function cartProps(callback) {
+    ShopifyPOS.fetchCart({
+      success: function (cart) {
+        callback(cart.properties.map(getPropName))
+      },
+      error: function (errors) {
+        ShopifyPOS.flashError("Oops! Something went wrong.")
+        console.error(errors)
+      }
     })
   }
 
@@ -35,13 +56,15 @@
       $('#property-list').hide()
     } else {
       $('#property-input').hide()
-      var props = (object === 'line') ? lineItemProps() : cartProps()
-      if (props.length > 0) {
-        $('#property-list')
-          .show()
-          .children('select').empty()
-          .append(props.map(toOption))
-      }
+      var callback = (function(props) {
+        if (props.length > 0) {
+          $('#property-list')
+            .show()
+            .children('select').empty()
+            .append(props.map(toOption))
+        }
+      });
+      (object === 'line') ? lineItemProps(callback) : cartProps(callback)
     }
 
     updateSelectedAction(operation, object)
@@ -49,7 +72,6 @@
 
   function updateSelectedAction(operation, object) {
     selectedAction = operation + "-" + object + "-prop"
-    console.log(selectedAction)
   }
 
   function handleSubmit(e) {
@@ -70,11 +92,6 @@
     render()
     e.preventDefault()
   }
-
-  ShopifyPOS.ready(function() {
-    $('#action').on('change', render)
-    $('#submit').on('click', handleSubmit)
-  })
 </script>
 
 <div class="layout-view--padding">
@@ -116,7 +133,7 @@
 
   <p class="footer layout-footer">
     <a href="javascript:void(0)" id="submit" class="btn btn-primary btn-large">Apply</a>
-    <a href="javascript:void(0)" class="btn btn-delete btn-large" onclick="ShopifyPOS.Cart.current.clear()">Empty cart</a>
+    <a href="javascript:void(0)" class="btn btn-delete btn-large" onclick="clearCart()">Empty cart</a>
   </p>
 
 </div>

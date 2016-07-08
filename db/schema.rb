@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160303182320) do
+ActiveRecord::Schema.define(version: 20160707192405) do
 
   create_table "shops", force: :cascade do |t|
     t.string   "shopify_domain", null: false

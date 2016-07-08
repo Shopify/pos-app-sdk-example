@@ -1,7 +1,8 @@
+shopify_app_config = Rails.application.config_for(:shopify_app)
+
 ShopifyApp.configure do |config|
-  config.api_key = "1234567890abcdef1234567890abcdef"
-  config.secret = "1234567890abcdef1234567890abcdef"
-  config.redirect_uri = "http://localhost:3000/auth/shopify/callback"
+  config.api_key = shopify_app_config.fetch('api_key')
+  config.secret = shopify_app_config.fetch('secret')
   config.scope = "read_orders, read_products"
   config.embedded_app = true
 end

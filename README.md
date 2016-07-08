@@ -1,4 +1,5 @@
 ## README
+
 This is an example application for building Shopify Embedded Applications for Shopify POS (Point of Sale). Your application credentials need to have embedded access make this example work locally.
 
 The example uses Ruby on Rails as a backend framework but the Shopify Embedded API is JavaScript based, so it is backend language/framework agnostic. Use this as a reference.

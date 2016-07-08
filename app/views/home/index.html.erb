@@ -1,28 +1,3 @@
-<% content_for :javascript do %>
-  <script type="text/javascript">
-
-    Shopify.ready(function(){
-      <% if !pos_embedded? %>
-      ShopifyApp.Bar.initialize({
-        title: "Home",
-        icon: "<%= asset_path('favicon.ico') %>"
-      });
-      <% end %>
-      Shopify
-    });
-  </script>
-<% end %>
-
-<% if !pos_embedded? %>
-<h2>Products</h2>
-
-<ul>
-  <% @products.each do |product| %>
-    <li><%= link_to product.title, "https://#{@shop_session.url}/admin/products/#{product.id}", target: "_top" %></li>
-  <% end %>
-</ul>
-<% else %>
-
 <script src="/assets/cart.js?<%= Time.now.strftime('%Y%m%d%H') %>"></script>
 
 <div class="layout-splitview">
@@ -31,69 +6,25 @@
 
     <div class="layout-view">
       <ul class="listview listview--horizontal listview--edgetoedge">
-        <% partitioned_products = @products.partition { |product| product.published_scope == 'global'} %>
-        <% if !partitioned_products[0].empty? %>
+        <% @products.group_by(&:product_type).each do |type, products| %>
           <li class="listview-sectionheader">
-            <div>POS Products</div>
+            <div><%= type %></div>
           </li>
-          <% partitioned_products[0].each do |product| %>
+
+          <% products.each do |product| %>
             <li class="listview-item">
               <div class="label-primary"><%= product.title %></div>
-              <div class="label-secondary"></div>
+              <div class="label-secondary"><%= pluralize(product.variants.count, "variant") %> </div>
             </li>
           <% end %>
         <% end %>
-        <% if !partitioned_products[0].empty? %>
-          <li class="listview-sectionheader">
-            <div>Non-POS Products</div>
-          </li>
-          <% partitioned_products[1].each do |product| %>
-            <li class="listview-item">
-              <div class="label-primary"><%= product.title %></div>
-              <div class="label-secondary"></div>
-            </li>
-          <% end %>
-        <% end %>
-      </ul>
+      </ul> 
     </div>
   </div>
 
   <div class="layout-master">
     <div class="layout-view layout-view--padding">
       <p>This application demos the various ways an external app can now interact with Shopify POS.</p>
-      <a href="javascript:void(0)" class="btn" onclick="updateRandomItem()">+ quantity</a>
-
-      <div id="cart-info">
-        <h2>Cart Info</h2>
-        <table id="line-items">
-          <tr id="header">
-            <th>Product ID</th>
-            <th>Variant ID</th>
-            <th>Title</th>
-            <th>Quantity</th>
-            <th>Price</th>
-          </tr>
-          <tr id="line-item-template">
-            <td class="product-id"></td>
-            <td class="variant-id"></td>
-            <td class="title"></td>
-            <td class="quantity"></td>
-            <td class="price"></td>
-          </tr>
-          <tr>
-            <td colspan="4"><em>Subtotal</em></td>
-            <td id="subtotal"></td>
-          </tr>
-          <tr>
-            <td colspan="4"><em>Tax total</em></td>
-            <td id="tax-total"></td>
-          </tr>
-          <tr>
-            <td colspan="4"><em>Grand total</em></td>
-            <td id="grand-total"></td>
-          </tr>
-        </table>
-      </div>
 
       <div id="user-info">
         <h2>User Info</h2>
@@ -118,7 +49,7 @@
         <h2>Modal Windows</h2>
         <p>
           <a href="javascript:void(0)" class="btn" onclick="alert('Hello world!')">Alert modal</a>
-          <a href="javascript:void(0)" class="btn" onclick="confirm('Are you sure you want to delete My Computer?')">Confirm modal</a>
+          <a href="javascript:void(0)" class="btn" onclick="confirm('Are you sure?')">Confirm modal</a>
           <a href="javascript:void(0)" class="btn" onclick="prompt('Enter a value:')">Prompt modal</a>
         </p>
 
@@ -147,5 +78,3 @@
       .appendTo("#user");
   });
 </script>
-
-<% end %>
