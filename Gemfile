@@ -45,4 +45,4 @@ group :development do
   gem 'spring'
 end
 
-gem 'shopify_app'
+gem 'shopify_app', '6.4.2'
