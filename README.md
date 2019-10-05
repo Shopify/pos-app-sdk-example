@@ -24,3 +24,14 @@ The usage of the Shopify POS App SDK is contained within `/app/assets/javascript
 5. Prepare the app by running `bundle install`, and `bundle exec rails server`. The app runs by default at `localhost:3000`.
 
 6. For more information, see the documentation for the [`shopify_app` ruby gem](https://github.com/Shopify/shopify_app).
+
+
+### Running with docker
+
+Has [`docker` docker](https://docker.com) installed on your computer.
+
+- Remove your Gemfile.lock.
+- Run the command `docker-compose up --build` 
+
+
+And it's done, the application is running under docker development.
